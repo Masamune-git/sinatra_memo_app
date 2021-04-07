@@ -17,7 +17,6 @@ end
 
 post "/new_memo/add" do 
   file_name = SecureRandom.uuid
-  file_name = SecureRandom.uuid
   File.open("db/#{file_name}","w") do |text|
     text.puts( params[:memo_text] )
   end
