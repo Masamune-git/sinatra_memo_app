@@ -1,7 +1,9 @@
 <ul>
-    <% @memo_names.each do |memo_name| %>
+    <% @memo_dates.each do |memo| %>
     <li>
-        <%= memo_name %>
+        <%= memo.memo_name %>
+        <%= memo.memo_id %>
+        
     </li>
     <% end %>
 </ul>
