@@ -1,9 +1,7 @@
 <ul>
-    <% @memo_dates.each do |memo| %>
+    <% @memo_dates.each do |memo_date| %>
     <li>
-        <%= memo.memo_name %>
-        <%= memo.memo_id %>
-        
+        <a href=/show_memo/<%=memo_date["memo_id"]%>><%=memo_date["memo_name"]%></a><br>
     </li>
     <% end %>
 </ul>
