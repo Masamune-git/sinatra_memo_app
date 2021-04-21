@@ -1,4 +1,4 @@
-<form method="get" action="/edit_memo">
+<form method="post" action="/edit_memo/edit_run/<%=@memo_date["memo_id"]%>">
 <textarea name="memo_name" class="form_item__textarea"><%=@memo_date["memo_name"]%></textarea>
   <textarea name="memo_text" class="form_item__textarea"><%=@memo_date["memo_text"]%></textarea>
   <input type= "submit" value="変更">
