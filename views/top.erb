@@ -1,10 +1,13 @@
-<ul>
+<div class="top_items">
+  <form method="get" action="/new_memo">
+    <input class="form_item_submit" type= "submit" value="追加">
+  </form>
+  <ul class="top_lists">
     <% @memo_dates.each do |memo_date| %>
-    <li>
+      <li class="top_list">
         <a href=/show_memo/<%=memo_date["memo_id"]%>><%=memo_date["memo_name"]%></a><br>
-    </li>
+      </li>
     <% end %>
-</ul>
-<form method="get" action="/new_memo">
-<input type= "submit" value="追加">
-</form>
+  </ul>
+</div>
+
