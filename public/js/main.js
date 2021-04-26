@@ -1,9 +1,9 @@
 function check(){
-  var a = document.getElementById("memo_name").value;
-  if(a==""){
+  var memo_name = document.getElementById("memo_name").value;
+  if(memo_name==""){
     alert("Memo name を入力してください")
     return false;
-  }else if(!a.match(/\S/g)){
+  }else if(!memo_name.match(/\S/g)){
     return false;
   }
 }

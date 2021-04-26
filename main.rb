@@ -27,7 +27,7 @@ class Memo
       json_dates = JSON.load(file)
     end
     json_dates = [] if json_dates.nil?
-    return json_dates
+    json_dates
   end
 
   def self.create_memo(memo_name, memo_id, memo_text)
@@ -47,7 +47,7 @@ class Memo
   end
 end
 
-get '/' do
+get '/top' do
   @title = 'top'
   @memo_dates = Memo.read_json
   erb :top
@@ -70,7 +70,7 @@ patch '/edit_memo/edit_run/:id' do
   @edit_after = Memo.edit_memo(h(params[:memo_name]), params[:id], h(params[:memo_text]))
   memo_dates = @memo_dates.map { |memo_date| memo_date == @edit_before ? @edit_after : memo_date }
   Memo.write_json(memo_dates)
-  redirect '/'
+  redirect '/top'
 end
 
 get '/show_memo/:id' do
@@ -88,7 +88,7 @@ delete '/delete/:id' do
     memo_date['memo_id'] == params[:id]
   end
   Memo.write_json(@memo_dates)
-  redirect '/'
+  redirect '/top'
 end
 
 get '/new_memo' do
@@ -100,5 +100,5 @@ post '/new_memo/add' do
   @memo_dates = Memo.read_json
   @memo_dates << Memo.create_memo(h(params[:memo_name]), SecureRandom.uuid, h(params[:memo_text]))
   Memo.write_json(@memo_dates)
-  redirect '/'
+  redirect '/top'
 end

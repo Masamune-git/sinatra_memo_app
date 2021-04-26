@@ -246,15 +246,3 @@ table {
   width: 100%;
   padding: 0 20%;
 }
-
-.form_item_name {
-  width: 25%;
-  font-size: 14px;
-  padding: 5px;
-  border: solid 2px #d8d8d8;
-  border-radius: 2px;
-  margin: 10px;
-  display: block;
-  line-height: 26px;
-  height: 26px;
-}
