@@ -4,8 +4,15 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'securerandom'
 require 'json'
+enable :method_override
 
 memo_dates = []
+
+helpers do
+  def h(text)
+    Rack::Utils.escape_html(text)
+  end
+end
 
 class Memo
   def self.write_json(memo_dates)
@@ -20,7 +27,7 @@ class Memo
       json_dates = JSON.load(file)
     end
     json_dates = [] if json_dates.nil?
-    json_dates
+    return json_dates
   end
 
   def self.create_memo(memo_name, memo_id, memo_text)
@@ -55,12 +62,12 @@ get '/edit_memo/:id' do
   erb :edit_memo
 end
 
-post '/edit_memo/edit_run/:id' do
+patch '/edit_memo/edit_run/:id' do
   @memo_dates = Memo.read_json
   @edit_before = @memo_dates.find do |memo_date|
     memo_date['memo_id'] == params[:id]
   end
-  @edit_after = Memo.edit_memo(params[:memo_name], params[:id], params[:memo_text])
+  @edit_after = Memo.edit_memo(h(params[:memo_name]), params[:id], h(params[:memo_text]))
   memo_dates = @memo_dates.map { |memo_date| memo_date == @edit_before ? @edit_after : memo_date }
   Memo.write_json(memo_dates)
   redirect '/'
@@ -75,7 +82,7 @@ get '/show_memo/:id' do
   erb :show_memo
 end
 
-get '/delete/:id' do
+delete '/delete/:id' do
   @memo_dates = Memo.read_json
   @memo_dates.delete_if  do |memo_date|
     memo_date['memo_id'] == params[:id]
@@ -91,7 +98,7 @@ end
 
 post '/new_memo/add' do
   @memo_dates = Memo.read_json
-  @memo_dates << Memo.create_memo(params[:memo_name], SecureRandom.uuid, params[:memo_text])
+  @memo_dates << Memo.create_memo(h(params[:memo_name]), SecureRandom.uuid, h(params[:memo_text]))
   Memo.write_json(@memo_dates)
   redirect '/'
 end

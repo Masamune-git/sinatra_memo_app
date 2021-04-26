@@ -1,10 +1,9 @@
 <div class="new_memo_items">
-  <form method="post" action="/new_memo/add">
-    <div class="texts">
-      <input type= "text" placeholder="Memo name" name="memo_name" class="form_item_text-input">
+  <div class="texts">
+    <form class="texts" onsubmit="return check()" method="post" action="/new_memo/add">
+      <input type="text" placeholder="Memo name" name="memo_name" class="form_item_text-input" id="memo_name">
       <textarea name="memo_text" placeholder="Memo" class="form_item_textarea"></textarea>
-      <input type= "submit" value="保存" class="form_item_submit">
-    </div>
-  </form>
+      <input type="submit" value="保存" class="form_item_submit">
+    </form>
+  </div>
 </div>
-

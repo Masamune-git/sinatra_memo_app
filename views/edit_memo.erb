@@ -1,7 +1,9 @@
 <div class="edit_memo_items">
-  <form method="post" action="/edit_memo/edit_run/<%=@memo_date["memo_id"]%>">
-    <textarea name="memo_name" class="form_item_name"><%=@memo_date["memo_name"]%></textarea>
+  <form onsubmit="return check()" method="post" action="/edit_memo/edit_run/<%=@memo_date["memo_id"]%>">
+    <input type="text" name="memo_name" class="form_item_text-input" id="memo_name"
+      value="<%=@memo_date["memo_name"]%>">
     <textarea name="memo_text" class="form_item_textarea"><%=@memo_date["memo_text"]%></textarea>
-    <input class="form_item_submit" type= "submit" value="変更">
+    <input type="hidden" name="_method" value="PATCH">
+    <input class="form_item_submit" type="submit" value="保存">
   </form>
 </div>
