@@ -7,7 +7,6 @@ require 'json'
 enable :method_override
 
 memos = []
-json_path = 'db/db.json'
 
 helpers do
   def h(text)
@@ -16,19 +15,16 @@ helpers do
 end
 
 class Memo
+  @json_path = 'db/db.json'
+
   def self.write_json(memos)
-    File.open(json_path, 'w') do |file|
+    File.open(@json_path, 'w') do |file|
       file.puts(JSON.generate(memos))
     end
   end
 
   def self.read_json
-    json_memos = []
-    File.open(json_path, 'r') do |file|
-      json_memos = JSON.load(file)
-    end
-    json_memos = [] if json_memos.nil?
-    json_memos
+    File.open(@json_path, 'r') { |file| JSON.load(file) } || []
   end
 
   def self.create_memo(memo_name, memo_id, memo_text)
@@ -85,7 +81,7 @@ end
 
 delete '/delete/:id' do
   @memos = Memo.read_json
-  @memos.delete_if  do |memo_date|
+  @memos.delete_if do |memo_date|
     memo_date['memo_id'] == params[:id]
   end
   Memo.write_json(@memos)
