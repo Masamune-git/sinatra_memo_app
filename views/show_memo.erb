@@ -1,9 +1,9 @@
 <div class="show_memo_items">
   <div class="show_memo_name">
-    <p><%=@memo_date["memo_name"]%></p>
+    <p><%=h(@memo_date["memo_name"])%></p>
   </div>
   <div class="show_memo_text">
-    <p><%=@memo_date["memo_text"].gsub(/\r\n|\r|\n/,"<br>")%></p>
+    <p><%=h(@memo_date["memo_text"]).gsub(/\r\n|\r|\n/,"<br>")%></p>
   </div>
   <form method="get" action="/edit_memo/<%=@memo_date["memo_id"]%>">
     <input class="form_item_submit" type="submit" value="変更">

@@ -52,21 +52,21 @@ end
 
 get '/edit_memo/:id' do
   @title = 'Edit memo'
-  @memos = Memo.read_json
-  @memo_date = @memos.find do |memo_date|
+  memos = Memo.read_json
+  @memo_date = memos.find do |memo_date|
     memo_date['memo_id'] == params[:id]
   end
   erb :edit_memo
 end
 
 patch '/edit_memo/edit_run/:id' do
-  @memos = Memo.read_json
-  @edit_before = @memos.find do |memo_date|
+  memos_before = Memo.read_json
+  edit_before = memos.find do |memo_date|
     memo_date['memo_id'] == params[:id]
   end
-  @edit_after = Memo.edit_memo(h(params[:memo_name]), params[:id], h(params[:memo_text]))
-  memos = @memos.map { |memo_date| memo_date == @edit_before ? @edit_after : memo_date }
-  Memo.write_json(memos)
+  edit_after = Memo.edit_memo(params[:memo_name], params[:id], params[:memo_text])
+  memos_after = memos_before.map { |memo_date| memo_date == edit_before ? edit_after : memo_date }
+  Memo.write_json(memos_after)
   redirect '/top'
 end
 
@@ -90,12 +90,12 @@ end
 
 get '/new_memo' do
   @title = 'New memo'
-  erb :new_memo
+  erb :'new_memo'
 end
 
 post '/new_memo/add' do
   @memos = Memo.read_json
-  @memos << Memo.create_memo(h(params[:memo_name]), SecureRandom.uuid, h(params[:memo_text]))
+  @memos << Memo.create_memo(params[:memo_name], SecureRandom.uuid, params[:memo_text])
   Memo.write_json(@memos)
   redirect '/top'
 end
