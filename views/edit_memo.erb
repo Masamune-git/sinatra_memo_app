@@ -1,5 +1,5 @@
 <div class="edit_memo_items">
-  <form onsubmit="return check()" method="post" action="/edit_memo/edit_run/<%=@memo_date["memo_id"]%>">
+  <form onsubmit="return check()" method="post" action="/memos/<%=@memo_date["memo_id"]%>/edit/run">
     <input type="text" name="memo_name" class="form_item_text-input" id="memo_name"
       value="<%=h(@memo_date["memo_name"])%>">
     <textarea name="memo_text" class="form_item_textarea"><%=h(@memo_date["memo_text"])%></textarea>

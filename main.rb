@@ -44,13 +44,18 @@ class Memo
   end
 end
 
-get '/top' do
+get '/memos' do
   @title = 'top'
   @memos = Memo.read_json
   erb :top
 end
 
-get '/edit_memo/:id' do
+get '/memos/create_memo' do
+  @title = 'New memo'
+  erb :new_memo
+end
+
+get '/memos/:id/edit' do
   @title = 'Edit memo'
   memos = Memo.read_json
   @memo_date = memos.find do |memo_date|
@@ -59,7 +64,7 @@ get '/edit_memo/:id' do
   erb :edit_memo
 end
 
-patch '/edit_memo/edit_run/:id' do
+patch '/memos/:id/edit/run' do
   memos_before = Memo.read_json
   edit_before = memos.find do |memo_date|
     memo_date['memo_id'] == params[:id]
@@ -67,35 +72,30 @@ patch '/edit_memo/edit_run/:id' do
   edit_after = Memo.edit_memo(params[:memo_name], params[:id], params[:memo_text])
   memos_after = memos_before.map { |memo_date| memo_date == edit_before ? edit_after : memo_date }
   Memo.write_json(memos_after)
-  redirect '/top'
+  redirect '/memos'
 end
 
-get '/show_memo/:id' do
+get '/memos/:id' do
   @title = 'Show memo'
-  @memos = Memo.read_json
-  @memo_date = @memos.find do |memo_date|
+  memos = Memo.read_json
+  @memo_date = memos.find do |memo_date|
     memo_date['memo_id'] == params[:id]
   end
   erb :show_memo
 end
 
-delete '/delete/:id' do
-  @memos = Memo.read_json
-  @memos.delete_if do |memo_date|
+delete '/memos/:id' do
+  memos = Memo.read_json
+  memos.delete_if do |memo_date|
     memo_date['memo_id'] == params[:id]
   end
-  Memo.write_json(@memos)
-  redirect '/top'
+  Memo.write_json(memos)
+  redirect '/memos'
 end
 
-get '/new_memo' do
-  @title = 'New memo'
-  erb :'new_memo'
-end
-
-post '/new_memo/add' do
-  @memos = Memo.read_json
-  @memos << Memo.create_memo(params[:memo_name], SecureRandom.uuid, params[:memo_text])
-  Memo.write_json(@memos)
-  redirect '/top'
+post '/memos/create_memo' do
+  memos = Memo.read_json
+  memos << Memo.create_memo(params[:memo_name], SecureRandom.uuid, params[:memo_text])
+  Memo.write_json(memos)
+  redirect '/memos'
 end
