@@ -5,15 +5,6 @@ Sinatra を利用したメモアプリになります。作成したメモは `s
 
 ## セットアップ
 
-Sinatra をインストールしてください。
-
-```shell
-gem install sinatra
-gem install sinatra-contrib
-```
-
-次に gem をインストールしてください。
-
 ```shell
 bundle install
 ```
@@ -24,4 +15,4 @@ bundle install
 ruby main.rb
 ```
 
-http://localhost:4567/top にアクセスできれば、セットアップ完了です。
+http://localhost:4567/memos にアクセスできれば、セットアップ完了です。
