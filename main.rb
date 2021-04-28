@@ -64,7 +64,7 @@ get '/memos/:id/edit' do
   erb :edit_memo
 end
 
-patch '/memos/:id/edit' do
+patch '/memos/:id' do
   memos_before = Memo.read_json
   edit_before = memos.find do |memo_date|
     memo_date['memo_id'] == params[:id]
