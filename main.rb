@@ -64,7 +64,7 @@ get '/memos/:id/edit' do
   erb :edit_memo
 end
 
-patch '/memos/:id/edit/run' do
+patch '/memos/:id/edit' do
   memos_before = Memo.read_json
   edit_before = memos.find do |memo_date|
     memo_date['memo_id'] == params[:id]
@@ -93,7 +93,7 @@ delete '/memos/:id' do
   redirect '/memos'
 end
 
-post '/memos/create_memo' do
+post '/memos' do
   memos = Memo.read_json
   memos << Memo.create_memo(params[:memo_name], SecureRandom.uuid, params[:memo_text])
   Memo.write_json(memos)
