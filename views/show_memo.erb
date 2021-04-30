@@ -1,0 +1,15 @@
+<div class="show_memo_items">
+  <div class="show_memo_name">
+    <p><%=h(@memo_date["memo_name"])%></p>
+  </div>
+  <div class="show_memo_text">
+    <p><%=h(@memo_date["memo_text"]).gsub(/\r\n|\r|\n/,"<br>")%></p>
+  </div>
+  <form method="get" action="/memos/<%=@memo_date["memo_id"]%>/edit">
+    <input class="form_item_submit" type="submit" value="変更">
+  </form>
+  <form method="post" action="/memos/<%=@memo_date["memo_id"]%>">
+    <input type="hidden" name="_method" value="DELETE">
+    <input class="form_item_submit" type="submit" value="削除">
+  </form>
+</div>

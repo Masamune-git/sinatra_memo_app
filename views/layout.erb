@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <script src="/js/main.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <title><%= @title %></title>
+</head>
+<header class="header">
+  <h1 class="app_name">メモアプリ</h1>
+</header>
+
+<body>
+  <div class="container">
+    <div class="container_items">
+      <%= yield %>
+    </div>
+  </div>
+</body>
+
+</html>
