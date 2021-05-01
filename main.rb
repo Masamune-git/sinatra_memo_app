@@ -13,27 +13,35 @@ helpers do
 end
 
 class Memo
-  @connection = PG.connect(host: 'localhost', user: 'postgres', dbname: 'memos', port: 5432)
+  def self.prepare_db
+    return if @connection
+
+    @connection = PG.connect(host: 'localhost', user: 'postgres', dbname: 'memos', port: 5432)
+    @connection.prepare('read_db', 'SELECT * FROM memos;')
+    @connection.prepare('create_memo', 'INSERT INTO memos (memo_id, memo_name, memo_text) VALUES ($1, $2, $3);')
+    @connection.prepare('edit_memo', 'UPDATE memos SET memo_name = $1, memo_text = $2 WHERE memo_id = $3;')
+    @connection.prepare('delete_memo', 'DELETE FROM memos WHERE memo_id = $1;')
+  end
 
   def self.read_db
-    query = 'SELECT * FROM memos;'
-    @connection.exec(query)
+    @connection.exec_prepared('read_db')
   end
 
   def self.create_memo(memo_name, memo_id, memo_text)
-    query = 'INSERT INTO memos (memo_id, memo_name, memo_text) VALUES ($1, $2, $3);'
-    @connection.exec(query, [memo_id, memo_name, memo_text])
+    @connection.exec_prepared('create_memo', [memo_id, memo_name, memo_text])
   end
 
   def self.edit_memo(memo_name, memo_id, memo_text)
-    query = 'UPDATE memos SET memo_name = $1, memo_text = $2 WHERE memo_id = $3;'
-    @connection.exec(query, [memo_name, memo_text, memo_id])
+    @connection.exec_prepared('edit_memo', [memo_name, memo_text, memo_id])
   end
 
   def self.delete_memo(memo_id)
-    query = 'DELETE FROM memos WHERE memo_id = $1;'
-    @connection.exec(query, [memo_id])
+    @connection.exec_prepared('delete_memo', [memo_id])
   end
+end
+
+before do
+  Memo.prepare_db
 end
 
 get '/memos' do
